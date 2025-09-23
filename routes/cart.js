@@ -11,11 +11,11 @@ router.get("/", (req, res) => {
 
 // POST / Ajouter un trajet dans le panier
 router.post("/", (req, res) => {
-  const {departure, arrival, price } = req.body;
+  const {departure, arrival, price, hour } = req.body;
   if (!departure || !arrival || !price) {
     return res.status(400).json({ error: "Données du trajet incomplètes" });
   }
-  cart.push({departure, arrival, price });
+  cart.push({departure, arrival, price, hour });
   res.json({ message: "Trajet ajouté au panier", cart });
 });
 
