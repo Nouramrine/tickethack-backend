@@ -6,7 +6,7 @@ var logger = require("morgan");
 var app = express();
 const cors = require("cors");
 app.use(cors());
-
+require("./models/connection");
 const bookingRouter = require("./routes/bookings");
 const cartRouter = require("./routes/cart");
 
@@ -20,3 +20,8 @@ app.use("/bookings", bookingRouter);
 app.use("/cart", cartRouter);
 
 module.exports = app; 
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
