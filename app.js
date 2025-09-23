@@ -9,6 +9,7 @@ app.use(cors());
 require("./models/connection");
 const bookingRouter = require("./routes/bookings");
 const cartRouter = require("./routes/cart");
+const tripsRouter = require("./routes/trips");
 
 
 app.use(logger("dev"));
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/bookings", bookingRouter);
 app.use("/cart", cartRouter);
+app.use("/trips", tripsRouter);
 
 module.exports = app; 
 
