@@ -5,8 +5,7 @@ const mongoose = require("mongoose");
 const cartSchema = new mongoose.Schema({
   departure: String,
   arrival: String,
-  // format HH:MM
-    hour: String,
+    hour: String,// format HH:MM
     price: Number,
 });
 
