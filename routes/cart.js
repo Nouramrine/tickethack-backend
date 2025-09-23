@@ -11,16 +11,16 @@ router.get("/", (req, res) => {
 
 // POST / Ajouter un trajet dans le panier
 router.post("/", (req, res) => {
-  const { id, departure, arrival, price } = req.body;
-  if (!id || !departure || !arrival || !price) {
+  const {departure, arrival, price } = req.body;
+  if (!departure || !arrival || !price) {
     return res.status(400).json({ error: "Données du trajet incomplètes" });
   }
-  cart.push({ id, departure, arrival, price });
+  cart.push({departure, arrival, price });
   res.json({ message: "Trajet ajouté au panier", cart });
 });
 
 //  DELETE / Supprimer un trajet spécifique
-router.delete("/:id", (req, res) => {
+router.delete("/", (req, res) => {
   const { id } = req.params;
   cart = cart.filter((trip) => trip.id !== id);
   res.json({ message: "Trajet supprimé du panier", cart });

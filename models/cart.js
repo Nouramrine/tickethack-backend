@@ -2,7 +2,6 @@
 const mongoose = require("mongoose");
 
 const cartSchema = new mongoose.Schema({
-  tripId: String,
   departure: String,
   arrival: String,
   price: Number,
