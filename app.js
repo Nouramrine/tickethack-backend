@@ -6,7 +6,7 @@ var logger = require("morgan");
 var app = express();
 const cors = require("cors");
 app.use(cors());
-
+require("./models/connection");
 const bookingRouter = require("./routes/bookings");
 
 app.use(logger("dev"));
@@ -15,3 +15,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/bookings", bookingRouter);
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
