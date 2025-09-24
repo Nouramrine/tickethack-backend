@@ -1,35 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const booking = require("../models/booking");
+const Booking = require("../models/booking");
+const moment = require("moment");
 
-// ajout de reservation
-router.post("/", async (req, res) => {
-  try {
-    const { trips } = req.body;
-    const bookings = await booking.insertMany(trips);
-    res.json({ result: true, bookings });
-  } catch (err) {
-    res.status(500).json({ result: false, error: err.message });
-  }
-});
-
-//recuperation des reservation
+//  récupérer toutes les réservations
 router.get("/", async (req, res) => {
   try {
-    const bookings = await booking.find().sort({ date: 1 }).exec();
-    // calcule du temps avec moment.js
-    const formattedBookings = bookings.map((b) => {
+    const bookingsData = await Booking.find().sort({ date: 1 }).exec();
+
+    const formattedBookings = bookingsData.map((b) => {
       const now = moment();
       const departure = moment(b.date);
       const diff = departure.diff(now);
 
       let waitingTime;
       if (diff <= 0) {
-        const departureMoment = moment(b.date);
-        waitingTime = `Departed ${departureMoment.fromNow()}`;
+        waitingTime = `Departed ${departure.fromNow()}`;
       } else {
         waitingTime = moment.utc(diff).format("HH [h] mm [min]");
       }
+
       return {
         departure: b.departure,
         arrival: b.arrival,
@@ -38,6 +28,7 @@ router.get("/", async (req, res) => {
         waitingTime,
       };
     });
+
     res.json({ result: true, bookings: formattedBookings });
   } catch (err) {
     res.status(500).json({ result: false, error: err.message });
