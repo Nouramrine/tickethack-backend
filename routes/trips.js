@@ -2,9 +2,24 @@ const express = require('express');
 const router = express.Router();
 const trips = require('../models/trip');
 
-// recherche de trajet
+// recherche des trajets
 router.get("/", (req, res) => {
-    res.json({ trips });
+    trips.find().then(data => {
+        res.json({ trips: data });
+    });
 });
+
+// recherche des trajets par villes
+router.get("/:departure", (req, res) => {
+    trips.find({ departure: { $regex: new RegExp(req.params.departure, "i") },
+    }).then(city => {
+        if (city) {
+            res.json({ result: true, trips: city });
+        } else {
+            res.json({ result: false, error: "City not found" });
+        }
+    });
+});
+
 
 module.exports = router;
